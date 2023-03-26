@@ -13,27 +13,27 @@ fn swap(mut arr: Vec<i32>, index: usize, index2: usize) ->  Vec<i32> {
     arr
 }
 
-fn divide_and_sort(mut arr: Vec<i32>, left: usize, right: usize) -> (Vec<i32>, usize) {
-    let pivot = divide_point(left, right);
+fn divide_and_sort(mut arr: Vec<i32>, left: usize, right: usize, pivot: usize) -> Vec<i32> {
     let pivot_element = arr[pivot];
     let mut result = left;
-    arr = swap(arr, pivot, right);
     println!("{} {} {}", left, right, pivot);
-    for i in left..(right - 1) {
-        if arr[i] < pivot_element {
-            arr = swap(arr, i, result);
-            result = result + 1;
+    for i in left..pivot {
+        for j in (pivot..right).rev() {
+            if arr[i] < pivot_element {
+                arr = swap(arr, i, result);
+                result = result + 1;
+            }
         }
     }
-    arr = swap(arr, result, right);
-    (arr, result)
+    arr
 }
 
-fn sort(arr: Vec<i32>,left: usize, right: usize) -> Vec<i32> {
+fn sort(mut arr: Vec<i32>,left: usize, right: usize) -> Vec<i32> {
     if right > left {
-        let (mut arr, position) = divide_and_sort(arr, left, right);
-        arr = sort(arr, left, position - 1);
-        arr = sort(arr, position + 1, right);
+        let pivot = divide_point(left, right);
+        arr = divide_and_sort(arr, left, right, pivot);
+        arr = sort(arr, left, pivot - 1);
+        arr = sort(arr, pivot + 1, right);
         return arr;
     }
     return arr;
@@ -75,7 +75,7 @@ mod tests {
 
     #[test]
     fn test_bubble_sort() {
-        let array = vec![1, 4, 2, 3, 1, 5, 121331, 11];
+        let array = vec![1, 4, 2, 121331, 1, 5, 3, 11];
         let expected = vec![1, 1, 2, 3, 4, 5, 11, 121331];
         let subject = quick_sort(array);
         assert_eq!(expected, subject);
