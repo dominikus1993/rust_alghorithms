@@ -59,10 +59,10 @@ mod tests {
 
     #[test]
     fn test_divide_point_when_number_of_elements_is_odd() {
-        let left = 0;
-        let right = 9;
+        let left = 5;
+        let right = 7;
         let subject = divide_point(left, right);
-        assert_eq!(4, subject);
+        assert_eq!(6, subject);
     }
 
     #[test]
