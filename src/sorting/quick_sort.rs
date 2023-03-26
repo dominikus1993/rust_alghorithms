@@ -1,6 +1,6 @@
 
 fn divide_point(left: usize, right: usize) -> usize {
-    (left + (right-left)) / 2
+   (right + left) / 2
 }
 
 fn swap(mut arr: Vec<i32>, index: usize, index2: usize) ->  Vec<i32> {
