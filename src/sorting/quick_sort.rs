@@ -18,7 +18,7 @@ fn divide_and_sort(mut arr: Vec<i32>, left: usize, right: usize) -> (Vec<i32>, u
     let pivot_element = arr[pivot];
     let mut result = left;
     arr = swap(arr, pivot, right);
-
+    println!("{} {} {}", left, right, pivot);
     for i in left..(right - 1) {
         if arr[i] < pivot_element {
             arr = swap(arr, i, result);
@@ -29,14 +29,17 @@ fn divide_and_sort(mut arr: Vec<i32>, left: usize, right: usize) -> (Vec<i32>, u
     (arr, result)
 }
 
-fn sort(mut arr: Vec<i32>,left: usize, right: usize) -> Vec<i32> {
-    let (mut arr, position) = divide_and_sort(arr, left, right);
-    arr = sort(arr, left, position - 1);
-    arr = sort(arr, position + 1, right);
+fn sort(arr: Vec<i32>,left: usize, right: usize) -> Vec<i32> {
+    if right > left {
+        let (mut arr, position) = divide_and_sort(arr, left, right);
+        arr = sort(arr, left, position - 1);
+        arr = sort(arr, position + 1, right);
+        return arr;
+    }
     return arr;
 }
 
-pub fn quick_sort(mut arr: Vec<i32>) -> Vec<i32> {
+pub fn quick_sort(arr: Vec<i32>) -> Vec<i32> {
     let length = arr.len();
     return sort(arr, 0, length - 1);
 }
