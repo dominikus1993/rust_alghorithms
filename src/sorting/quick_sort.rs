@@ -13,27 +13,33 @@ fn swap(mut arr: Vec<i32>, index: usize, index2: usize) ->  Vec<i32> {
     arr
 }
 
-fn divide_and_sort(mut arr: Vec<i32>, left: usize, right: usize, pivot: usize) -> Vec<i32> {
+fn divide_and_sort(mut arr: Vec<i32>, left: usize, right: usize) -> (Vec<i32>, usize) {
+    println!("{}, {}", left, right);
+    let pivot = divide_point(left, right);
     let pivot_element = arr[pivot];
-    let mut result = left;
-    println!("{} {} {}", left, right, pivot);
-    for i in left..pivot {
-        for j in (pivot..right).rev() {
-            if arr[i] < pivot_element {
-                arr = swap(arr, i, result);
-                result = result + 1;
-            }
+    println!("{}, {}, {}, {}", left, right, pivot, pivot_element);
+    arr = swap(arr, pivot, right);
+    let mut j = 0;
+    for i in left..right  {
+        if arr[i] < pivot_element {
+            arr = swap(arr, i, j);
+            j = j + 1;
         }
     }
-    arr
+    arr = swap(arr, j, right);
+    (arr, j)
 }
 
-fn sort(mut arr: Vec<i32>,left: usize, right: usize) -> Vec<i32> {
+fn sort(arr: Vec<i32>, left: usize, right: usize) -> Vec<i32> {
     if right > left {
-        let pivot = divide_point(left, right);
-        arr = divide_and_sort(arr, left, right, pivot);
-        arr = sort(arr, left, pivot - 1);
-        arr = sort(arr, pivot + 1, right);
+        let (mut arr, pivot) = divide_and_sort(arr, left, right);
+        if (pivot != 0) && left < (pivot - 1) {
+            arr = sort(arr, left, pivot - 1);
+        }
+        if right > (pivot + 1) {
+            arr = sort(arr, pivot + 1, right);
+        }
+        
         return arr;
     }
     return arr;
@@ -71,6 +77,20 @@ mod tests {
         let right = 9;
         let subject = divide_point(left, right);
         assert_eq!(5, subject);
+    }
+
+    #[test]
+    fn test_divide_and_sort() {
+        let array = vec![1, 4, 2, 121331, 1, 5, 3, 11];
+        let (_, subject) = divide_and_sort(array, 0, 3);
+        assert_eq!(2, subject);
+    }
+
+    #[test]
+    fn test_divide_and_sort_0_1() {
+        let array = vec![1, 4, 2, 121331, 1, 5, 3, 11];
+        let (_, subject) = divide_and_sort(array, 0, 1);
+        assert_eq!(2, subject);
     }
 
     #[test]
