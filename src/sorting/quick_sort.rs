@@ -1,16 +1,7 @@
+use super::array::{swap};
 
 fn divide_point(left: usize, right: usize) -> usize {
    (right + left) / 2
-}
-
-fn swap(mut arr: Vec<i32>, index: usize, index2: usize) ->  Vec<i32> {
-    if index == index2 {
-        return arr;
-    }
-    let tmp = arr[index];
-    arr[index] = arr[index2];
-    arr[index2] = tmp;
-    arr
 }
 
 fn divide_and_sort(mut arr: Vec<i32>, left: usize, right: usize) -> (Vec<i32>, usize) {

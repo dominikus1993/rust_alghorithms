@@ -1,10 +1,16 @@
+use super::array::{swap};
+
 pub fn sort(mut arr: Vec<i32>) -> Vec<i32> {
     let length = arr.len();
     for i in 1..length {
-        for j in (0..i).rev() {
-            
+        let elemnt = arr[i];
+        for j in 0..i {
+            if arr[j] > elemnt {
+                arr = swap(arr, i, j)
+            }
         } 
     }
+    return arr;
 }
 
 #[cfg(test)]
