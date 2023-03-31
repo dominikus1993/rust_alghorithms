@@ -1,15 +1,22 @@
 use super::array::{swap};
 
-fn merge(mut arr: Vec<i32>, from: usize, to: usize) -> Vec<i32> {
-    println!("{} {}", from, to);
+fn merge(mut arr: Vec<i32>, from: usize, mid: usize, to: usize) -> Vec<i32> {
+    let mut i = from;
+    let mut j = mid;
+    loop {
+        if arr[i] > arr[j] {
+           arr = swap(arr, i, j);
+        }
+    }
     arr
 }
 
 fn sort_internal(mut arr: Vec<i32>, from: usize, to: usize) -> Vec<i32>  {
     if to > from {
-        arr = sort_internal(arr, from, (from + to) / 2);
-        arr = sort_internal(arr, (from + to) / 2 + 1, to);
-        arr = merge(arr, from, to)
+        let mid = (from + to) / 2;
+        arr = sort_internal(arr, from, mid);
+        arr = sort_internal(arr, mid + 1, to);
+        arr = merge(arr, from, mid, to)
     }
     arr
 }
