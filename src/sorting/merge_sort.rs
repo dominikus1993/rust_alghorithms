@@ -1,17 +1,41 @@
-use super::array::{swap};
+use super::array::swap;
 
-fn merge(mut arr: Vec<i32>, from: usize, mid: usize, to: usize) -> Vec<i32> {
+fn merge(arr: Vec<i32>, from: usize, mid: usize, to: usize) -> Vec<i32> {
+    println!("{} {} {}", from, mid, to);
+    let mut res: Vec<i32> = Vec::new();
+    res.reserve(arr.len());
+    for index in 0..from {
+        res.push(arr[index]);
+    }
+
     let mut i = from;
     let mut j = mid;
-    loop {
-        if arr[i] > arr[j] {
-           arr = swap(arr, i, j);
+
+    while i < mid && j < to {
+        if arr[j] >= arr[i] {
+            res.push(arr[i]);
+            i = i + 1;
+        } else {
+            res.push(arr[j]);
+            j = j + 1;
         }
     }
-    arr
+    while i <= mid {
+        res.push(arr[i]);
+        i = i + 1;
+    }
+    while j < to {
+        res.push(arr[j]);
+        j = j + 1;
+    }
+
+    for index in to..arr.len() {
+        res.push(arr[index]);
+    }
+    res
 }
 
-fn sort_internal(mut arr: Vec<i32>, from: usize, to: usize) -> Vec<i32>  {
+fn sort_internal(mut arr: Vec<i32>, from: usize, to: usize) -> Vec<i32> {
     if to > from {
         let mid = (from + to) / 2;
         arr = sort_internal(arr, from, mid);
@@ -41,8 +65,8 @@ mod tests {
 
     #[test]
     fn test_small_array_insert_sort() {
-        let array = vec![6, 4];
-        let expected = vec![4, 6];
+        let array = vec![6, 4, 1];
+        let expected = vec![1, 4, 6];
         let subject = sort(array);
         assert_eq!(expected, subject);
     }
