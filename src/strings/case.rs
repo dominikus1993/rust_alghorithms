@@ -41,15 +41,15 @@ mod tests {
 
     #[test]
     fn test_upper_case() {
-        let array = "tEst";
+        let array = "tEst2";
         let subject = upper_case(array);
-        assert_eq!("TEST", subject);
+        assert_eq!("TEST2", subject);
     }
 
     #[test]
     fn test_lower_case() {
-        let array = "tEsT";
+        let array = "tEsT5";
         let subject = lower_case(array);
-        assert_eq!("test", subject);
+        assert_eq!("test5", subject);
     }
 }
